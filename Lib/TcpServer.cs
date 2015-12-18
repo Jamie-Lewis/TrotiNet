@@ -262,8 +262,10 @@ namespace TrotiNet
             ListeningThread.Start();
 
             const int cleanTimeout = 300 * 1000; // in ms
-            CleanTimer = new Timer(new TimerCallback(CheckSockets), null,
-                cleanTimeout, cleanTimeout);
+            CleanTimer = new Timer(CheckSockets, null, cleanTimeout, cleanTimeout);
+
+            InitListenFinished.WaitOne();
+            if (InitListenException != null) throw InitListenException;
         }
 
         /// <summary>
